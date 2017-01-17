@@ -38,7 +38,7 @@ public class GGame {
 		return false;
 	}
 	
-	void flag(GGame player){
+	void flag(GGame player){//낸 카드를 안보이게 하는 것
 		this.card[input].card=false;
 		player.card[player.input].card=false;
 	}
