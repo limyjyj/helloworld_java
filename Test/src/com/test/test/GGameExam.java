@@ -2,14 +2,17 @@ package com.test.test;
 
 import java.util.Scanner;
 
-public class GGameRun {
+public class GGameExam {
 	public static void main(String argc[]) {
 
 		Scanner scanner = new Scanner(System.in);
 
 		do {
-			GGame p1 = new GGame();
-			GGame p2 = new GGame();
+			System.out.println("몇 점으로 하시겠습니까?");
+			int maxscore = scanner.nextInt();
+			System.out.println(maxscore);
+			GGameSecond p1 = new GGameSecond(maxscore);
+			GGameSecond p2 = new GGameSecond(maxscore);
 			System.out.println("카드를 몇 장 사용하시겠습니까?");
 			System.out.println("(최대 100장)");
 			int cardnum = scanner.nextInt();
@@ -44,27 +47,33 @@ public class GGameRun {
 						break;
 				}
 
-				if (p1.checkVictory(p2)) {
-					System.out.println("p1이 이겼습니다.");
+				if (p1.victoryGame()) {
+					System.out.println("p1이 이겼습니다.!!!");
 					System.out.println("p1score :" + p1.getScore());
 					System.out.println("p2score :" + p2.getScore());
-				} else if (p2.checkVictory(p1)) {
-					System.out.println("p2가 이겼습니다.");
+					break;
+				} else if (p2.victoryGame()) {
+					System.out.println("p2가 이겼습니다.!!!");
 					System.out.println("p1score :" + p1.getScore());
 					System.out.println("p2score :" + p2.getScore());
+					break;
 				} else {
-					p1.reverse(p2);
-					System.out.println("비겼습니다.");
-					System.out.println("p1score :" + p1.getScore());
-					System.out.println("p2score :" + p2.getScore());
+					if (p1.checkVictory(p2)) {
+						System.out.println("p1이 이겼습니다.");
+						System.out.println("p1score :" + p1.getScore());
+						System.out.println("p2score :" + p2.getScore());
+					} else if (p2.checkVictory(p1)) {
+						System.out.println("p2가 이겼습니다.");
+						System.out.println("p1score :" + p1.getScore());
+						System.out.println("p2score :" + p2.getScore());
+					} else {
+						p1.reverse(p2);
+						System.out.println("비겼습니다.");
+						System.out.println("p1score :" + p1.getScore());
+						System.out.println("p2score :" + p2.getScore());
+					}
 				}
 			}
-			if (p1.victoryGame(p2)) {
-				System.out.println("p1이 " + p1.getScore() + " 대 " + p2.getScore() + "로 이겼습니다.");
-			} else if (p2.victoryGame(p1))
-				System.out.println("p2가 " + p1.getScore() + " 대 " + p2.getScore() + "로 이겼습니다.");
-			else
-				System.out.println("비겼네요 ㅠㅠ");
 			System.out.println("그만 하시겠습니까?(y/n)");
 		} while (!scanner.next().equals("y"));
 		System.out.println("***************");

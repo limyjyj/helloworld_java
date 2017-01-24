@@ -3,60 +3,83 @@ package com.test.test;
 import java.util.Scanner;
 
 public class GGame {
-	Card[] card = new Card[100];
-	int score;
-	int input;
-	int cardcount;
+	static final int TOTAL_CARD=100;
 	
-	Scanner scanner = new Scanner(System.in);
+	private Card[] card = new Card[TOTAL_CARD];
+	private int score;
+	private int input;
+
+	public void setScore(int score){
+		this.score = score;
+	}
+	
+	public void setInput(int input){
+		this.input= input;
+	}
+	
+	public int getScore(){
+		return score;
+	}
+	
+	public int getInput(){
+		return input;
+	}
+	
+	public int getCardNum(int index){
+		return card[index].getNum();
+	}
+	
+	public boolean isCardReverse(int index){
+		return card[index].isReverse();
+	}
+	public void setCardNum(int index,int num){
+		card[index].setNum(num);
+	}
+	
+	public void setCardReverse(int index,boolean reverse){
+		card[index].setReverse(reverse);
+	}
 	
 	public GGame(){
-		
-		for(int i=0;i<100;i++){
+		for(int i=0;i<TOTAL_CARD;i++){
 			card[i]=new Card();
-			card[i].num=i;
-			card[i].card=true;
+			card[i].setNum(i);
+			card[i].setReverse(true);
 		}
 		score=0;
 		input=0;
-		cardcount=0;
 	}
 	
-	void reset(int a){
-		for(int i=a;i<100;i++){
-			card[i].card=false;
+	void initailReverse(int a){
+		for(int i=a;i<TOTAL_CARD;i++){
+			card[i].setReverse(false);
 		}
 	}
 	
-	int showCard(GGame player,int cardNum){
-		return player.card[cardNum].num;
+	
+	boolean checkCard(int cardnum){
+		if(card[cardnum].isReverse())
+			return false;
+		return true;
 	}
 	
-	boolean checkCard(int cardNum){
-		if(this.card[cardNum].card==false)
-			return true;
-		return false;
-	}
-	
-	void flag(GGame player){//낸 카드를 안보이게 하는 것
-		this.card[input].card=false;
-		player.card[player.input].card=false;
+	void reverse(GGame player){
+		this.card[input].setReverse(false);
+		player.card[player.input].setReverse(false);
 	}
 	
 	boolean checkVictory(GGame player){
 		if(this.input>player.input){
 			this.score++;
-			flag(player);
+			reverse(player);
 			return true;
 		}
 		return false;
 	}
 	
-	boolean drawCard(){
-		input=scanner.nextInt();
-		if(input>=101)
-			return true;
-		else if(checkCard(input))
+	boolean drawCard(int input){
+		this.input=input;
+		if(checkCard(input))
 			return true;
 		return false;
 	}
@@ -65,11 +88,6 @@ public class GGame {
 		if(this.score>player.score)
 			return true;
 		return false;
-	}
-	
-	void clear(){
-		for(int i=0;i<15;i++)
-			System.out.println("");
 	}
 	
 }
