@@ -1,0 +1,37 @@
+<html>
+<head>
+	<title>게시판 전체목록</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		var socket = null;
+		$(document).ready(function() {
+			socket = io.connect(); //서버에 접속시도
+			socket.emit('board_list','');
+			socket.on('board_list', function(data){
+				data = JSON.parse(data);
+				for(var i = 0; i<data.length; i++){
+					$('#board_list').append('<li>'+'<a href="detail.html?no='+data[i].no+
+							'">'+data[i].title+'</a>&nbsp'+'<a href="javascript:delete_board('+data[i].no+
+									');">삭제</a></li>');
+				}
+			});
+			socket.on('board_delete', function(data){
+				$('#board_list').html('');
+				socket.emit('board_list','');
+			});
+		});
+		function delete_board(no){
+			socket.emit('board_delete', JSON.stringify({no:no}));
+			
+		}
+	</script>
+</head>
+<body>
+	<h1>게시판 전체목록</h1>
+
+	<ul id="board_list"></ul>
+	<a href="write.html">글쓰기</a>
+
+</body>
+</html>

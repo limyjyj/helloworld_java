@@ -1,0 +1,31 @@
+<html>
+<head>
+	<title>글쓰기</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		var socket = null;
+		$(document).ready(function() {
+			socket = io.connect(); //서버에 접속시도
+			socket.on('board_insert', function(data){
+				location.href = 'list.html';
+			});
+		});
+		function write() {
+			var title = $('#title').val();
+			var content = $('#content').val();
+			socket.emit('board_insert', JSON.stringify({//보내는거
+				title:title, content:content
+			}));
+		}
+	</script>
+</head>
+<body>
+	<h1>글쓰기</h1>
+	<div>
+		제목:<input type="text" id="title"><br>
+		내용:<textarea id="content" rows="10"></textarea>
+		<br><a href="javascript:write();">저장</a>
+	</div>
+</body>
+</html>

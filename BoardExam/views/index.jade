@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+  - each board in boards
+    a(href="/detail/#{board.no}") #{board.title}
+    form(method="POST" action="/delete")
+      input(type="hidden" name="no" value="#{board.no}")
+      input(type="submit" value="삭제")
+      p
+      p
+      p
+  a(href="/write") 글쓰기
+    
